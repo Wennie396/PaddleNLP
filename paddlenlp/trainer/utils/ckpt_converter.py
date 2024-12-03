@@ -905,34 +905,21 @@ class CheckpointConverter:
         renamed_state_dict = {}
 
         def rename(old_name, parameter_to_structured_name):
-            # for i in range(1, len(old_name) + 1):
-            #     param_name = old_name[:i]  # param_name
-            #     suffix = old_name[i:]  # suffix
-            #     if param_name in parameter_to_structured_name:
-            #         structure_name = parameter_to_structured_name[param_name]
-            #         if "moment1" in suffix:
-            #             return structure_name + ".moment1"
-            #         elif "moment2" in suffix:
-            #             return structure_name + ".moment2"
-            #         elif "beta1_pow_acc" in suffix:
-            #             return structure_name + ".beta1_pow_acc"
-            #         elif "beta2_pow_acc" in suffix:
-            #             return structure_name + ".beta2_pow_acc"
-            #         else:
-            #             return structure_name + ".master_weight"
-            # return None
-            for k, v in parameter_to_structured_name.items():
-                if k in old_name:
-                    if "moment1" in old_name:
-                        return v + ".moment1"
-                    elif "moment2" in old_name:
-                        return v + ".moment2"
-                    elif "beta1_pow_acc" in old_name:
-                        return v + ".beta1_pow_acc"
-                    elif "beta2_pow_acc" in old_name:
-                        return v + ".beta2_pow_acc"
+            for i in range(1, len(old_name) + 1):
+                param_name = old_name[:i]  # param_name
+                suffix = old_name[i:]  # suffix
+                if param_name in parameter_to_structured_name:
+                    structure_name = parameter_to_structured_name[param_name]
+                    if "moment1" in suffix:
+                        return structure_name + ".moment1"
+                    elif "moment2" in suffix:
+                        return structure_name + ".moment2"
+                    elif "beta1_pow_acc" in suffix:
+                        return structure_name + ".beta1_pow_acc"
+                    elif "beta2_pow_acc" in suffix:
+                        return structure_name + ".beta2_pow_acc"
                     else:
-                        return v + ".master_weight"
+                        return structure_name + ".master_weight"
             return None
 
         for key, value in state_dict.items():
